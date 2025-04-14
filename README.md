@@ -1,7 +1,7 @@
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
-<H3>EX. NO.1</H3>
-<H3>DATE</H3>
+<H3>NAME: Krithick Vivekananda</H3>
+<H3>REGISTER NO: 212223240075</H3>
+<H3>EX.NO.1</H3>
+<H3>DATE:</H3>
 <H1 ALIGN =CENTER> Introduction to Kaggle and Data preprocessing</H1>
 
 ## AIM:
@@ -29,20 +29,64 @@ Another aspect is that the data set should be formatted in such a way that more 
 
 
 ## ALGORITHM:
-STEP 1:Importing the libraries<BR>
-STEP 2:Importing the dataset<BR>
-STEP 3:Taking care of missing data<BR>
-STEP 4:Encoding categorical data<BR>
-STEP 5:Normalizing the data<BR>
-STEP 6:Splitting the data into test and train<BR>
+<B>STEP 1:</B> Importing the libraries<BR>
+<B>STEP 2:</B> Importing the dataset<BR>
+<B>STEP 3:</B> Taking care of missing data<BR>
+<B>STEP 4:</B> Encoding categorical data<BR>
+<B>STEP 5:</B> Normalizing the data<BR>
+<B>STEP 6:</B> Splitting the data into test and train<BR>
 
 ##  PROGRAM:
-TYPE YOUR CODE HERE
+``` python
+# IMPORT LIBRARIES
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
 
+# READ THE DATASET
+df = pd.read_csv("Churn_Modelling.csv")
 
+# HANDLING MISSING VALUES
+print("Missing Values:\n", df.isnull().sum(), '\n')
+
+# HANDLE DUPLICATES (IF ANY)
+duplicates = df.duplicated().sum()
+print(f"Number of duplicate rows: {duplicates}\n")
+
+# CHECK FOR OUTLIERS USING DESCRIBE()
+print("Outliers (Summary Statistics):\n", df.describe(), '\n')
+# DROP UNNECESSARY COLUMNS (LIKE 'SURNAME', 'GEOGRAPHY', AND 'GENDER')
+df = df.drop(['Surname', 'Geography', 'Gender'], axis=1)
+
+# NORMALIZE THE DATASET USING MINMAXSCALER
+scaler = MinMaxScaler()
+df_normalized = pd.DataFrame(scaler.fit_transform(df.drop('Exited', axis=1)), columns=df.columns[:-1])
+
+# NORMALIZED DATASET
+print("Normalized dataset:\n", df_normalized.head(), "\n")
+
+# DEFINE FEATURES(X) AND TARGET(Y)
+X = df_normalized.values
+y = df['Exited'].values
+
+# INPUT & OUTPUT VALUES
+print("Input Values (Features):\n", X[:5])
+print("\nOutput Values (Target):\n", y[:5])
+
+# SPLIT THE DATA INTO TRAINING AND TESTING SETS
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# SPLITTING THE DATA FOR TRAINING & TESTING
+print(f"\nTraining data size: {len(X_train)}")
+print(f"Testing data size: {len(X_test)}")
+```
 ## OUTPUT:
-SHOW YOUR OUTPUT HERE
-
+![image](https://github.com/user-attachments/assets/0fdc662f-a16a-4907-93a7-e50aba775017)
+![image](https://github.com/user-attachments/assets/0a2206f3-04c8-4691-8c1c-6eeb3ad6b293)
+![image](https://github.com/user-attachments/assets/cc6107f8-f956-4319-92ac-c6d13382bf86)
+![image](https://github.com/user-attachments/assets/e0860c0a-ffae-4199-bff8-17a20758c1f3)
+![image](https://github.com/user-attachments/assets/b5601b6f-f380-49ad-af89-6b3fd49d5355)
+![image](https://github.com/user-attachments/assets/4756cff8-249a-4d4b-9598-8923c17561ed)
 
 ## RESULT:
 Thus, Implementation of Data Preprocessing is done in python  using a data set downloaded from Kaggle.
